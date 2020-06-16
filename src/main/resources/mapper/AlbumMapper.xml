@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.AlbumDAO">
+
+    <insert id="insertAlbum">
+        insert into cmfz_album
+        values(#{id},#{title,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{announcer,jdbcType=VARCHAR},#{series,jdbcType=INTEGER},#{brief,jdbcType=VARCHAR},#{size,jdbcType=DOUBLE},#{cover,jdbcType=VARCHAR},#{score,jdbcType=DOUBLE},#{newstime,jdbcType=DATE},#{state,jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteAlbum">
+        delete from cmfz_album where id = #{id}
+    </delete>
+    <delete id="deleteAlbums" parameterType="String">
+        delete from cmfz_album where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateAlbum">
+        update cmfz_album set title = #{title,jdbcType=VARCHAR},author = #{author,jdbcType=VARCHAR},announcer =
+        #{announcer,jdbcType=VARCHAR},series = #{series,jdbcType=INTEGER},brief = #{brief,jdbcType=VARCHAR},size =
+        #{size,jdbcType=DOUBLE},cover = #{cover,jdbcType=VARCHAR},score = #{score,jdbcType=DOUBLE},newstime =
+        #{newstime,jdbcType=DATE},state = #{state,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+    <update id="updateAlbumSetCover">
+        update cmfz_album set cover = #{cover,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+    <update id="updateAlbumSetSeriesAndSize">
+        update cmfz_album set series = #{series,jdbcType=INTEGER},size = #{size,jdbcType=DOUBLE}
+        where id = #{id}
+    </update>
+    <update id="updateAlbumSetScore">
+        update cmfz_album set score = #{score,jdbcType=DOUBLE}
+        where id = #{id}
+    </update>
+
+    <select id="selectAlbumsAll" resultType="Album">
+        select id,title,author,announcer,series,brief,size,cover,score,newstime,state
+        from cmfz_album
+    </select>
+    <select id="selectAlbumsPage" resultType="Album">
+        select id,title,author,announcer,series,brief,size,cover,score,newstime,state
+        from cmfz_album
+        limit #{start},#{rows}
+    </select>
+    <select id="selectAlbumCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_album
+    </select>
+    <select id="selectAlbumsByNewstime" resultType="Album">
+        select id,title,author,announcer,series,brief,size,cover,score,newstime,state
+        from cmfz_album
+        order by newstime desc
+        limit 0,6
+    </select>
+    <select id="selectAlbumById" resultType="Album">
+        select id,title,author,announcer,series,brief,size,cover,score,newstime,state
+        from cmfz_album
+        where id = #{id}
+    </select>
+
+
+</mapper>

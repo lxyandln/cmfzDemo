@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.GuruDAO">
+
+    <insert id="insertGuru">
+        insert into cmfz_guru
+        values(#{id},#{name,jdbcType=VARCHAR},#{sign,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{time,jdbcType=DATE})
+    </insert>
+    <delete id="deleteGuru">
+        delete from cmfz_guru where id = #{id}
+    </delete>
+    <update id="updateGuru">
+        update cmfz_guru set name = #{name,jdbcType=VARCHAR},sign = #{sign,jdbcType=VARCHAR},state =
+        #{state,jdbcType=VARCHAR},time = #{time,jdbcType=DATE}
+        where id = #{id}
+    </update>
+
+    <select id="selectGurusAll" resultType="Guru">
+        select id,name,sign,state,time
+        from cmfz_guru
+    </select>
+    <select id="selectGurusPage" resultType="Guru">
+        select id,name,sign,state,time
+        from cmfz_guru
+        limit #{start},#{rows}
+    </select>
+    <select id="selectGuruCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_guru
+    </select>
+    <select id="selectGuruById" resultType="Guru">
+        select id,name,sign,state,time
+        from cmfz_guru
+        where id = #{id}
+    </select>
+
+
+</mapper>

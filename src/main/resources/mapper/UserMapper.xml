@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.UserDAO">
+
+    <insert id="insertUser">
+        insert into cmfz_user
+        values(#{id},#{name,jdbcType=VARCHAR},#{sign,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{password,jdbcType=VARCHAR},#{head,jdbcType=VARCHAR},#{sex,jdbcType=VARCHAR},#{signature,jdbcType=VARCHAR},#{province,jdbcType=VARCHAR},#{city,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{logtime,jdbcType=DATE},#{regtime,jdbcType=DATE})
+    </insert>
+    <delete id="deleteUsers" parameterType="String">
+        delete from cmfz_user where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateUser">
+        update cmfz_user
+        set name = #{name,jdbcType=VARCHAR},sign = #{sign,jdbcType=VARCHAR},phone = #{phone,jdbcType=VARCHAR},password =
+        #{password,jdbcType=VARCHAR},head = #{head,jdbcType=VARCHAR},sex = #{sex,jdbcType=VARCHAR},signature =
+        #{signature,jdbcType=VARCHAR},province = #{province,jdbcType=VARCHAR},city = #{city,jdbcType=VARCHAR},state =
+        #{state,jdbcType=VARCHAR},logtime = #{logtime,jdbcType=DATE},regtime = #{regtime,jdbcType=DATE}
+        where id = #{id}
+    </update>
+    <update id="updateUserSetLogtime">
+        update cmfz_user
+        set logtime = #{logtime,jdbcType=DATE}
+        where id = #{id}
+    </update>
+
+    <select id="selectUsersAll" resultType="User">
+        select id,name,sign,phone,password,head,sex,signature,province,city,state,logtime,regtime
+        from cmfz_user
+    </select>
+    <select id="selectUsersPage" resultType="User">
+        select id,name,sign,phone,password,head,sex,signature,province,city,state,logtime,regtime
+        from cmfz_user
+        limit #{start},#{rows}
+    </select>
+    <select id="selectUserCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_user
+    </select>
+    <select id="selectUserById" resultType="User">
+        select id,name,sign,phone,password,head,sex,signature,province,city,state,logtime,regtime
+        from cmfz_user
+        where id = #{id}
+    </select>
+    <!--<select id="selectUserByName" resultType="User">
+        select id,name,sign,phone,password,head,sex,signature,province,city,state,logtime,regtime
+        from cmfz_user
+        where name = #{name}
+    </select>-->
+    <select id="selectUserByPhone" resultType="User">
+        select id,name,sign,phone,password,head,sex,signature,province,city,state,logtime,regtime
+        from cmfz_user
+        where phone = #{phone}
+    </select>
+    <select id="selectUsersByProvinceAndCount" resultType="User">
+        select sex,province,count(id) as num
+        from cmfz_user
+        group by province,sex
+    </select>
+    <!--<select id="selectUsersByProvinceAndCount" resultType="User">
+        select province,count(id) as num
+        from cmfz_user
+        where DATEDIFF(now(),logtime) &lt;= #{date}
+        group by province
+    </select>-->
+    <select id="selectUsersBySexAndCount" resultType="User">
+        select sex,count(id) as num
+        from cmfz_user
+        where DATEDIFF(now(),logtime) &lt;= #{date}
+        group by sex
+    </select>
+
+</mapper>

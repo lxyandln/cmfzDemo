@@ -1,0 +1,32 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/player
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+    date-format: yyyy-MM-dd
+  jackson:
+    date-format: yyyy-MM-dd
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+  redis:
+    host: 192.168.80.84
+    database: 0
+    port: 8000
+server:
+  port: 8989
+  servlet:
+    context-path: /cmfz
+    jsp:
+      init-parameters:
+        development: true
+mybatis:
+  type-aliases-package: com.baizhi.entity
+  mapper-locations: classpath:mapper/*Mapper.xml

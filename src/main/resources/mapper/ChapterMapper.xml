@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ChapterDAO">
+
+    <insert id="insertChapter">
+        insert into cmfz_chapter
+        values(#{id},#{name,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{size,jdbcType=DOUBLE},#{duration,jdbcType=INTEGER},#{albumid,jdbcType=VARCHAR})
+    </insert>
+    <delete id="deleteChapter">
+        delete from cmfz_chapter where id = #{id}
+    </delete>
+    <delete id="deleteChapters" parameterType="String">
+        delete from cmfz_chapter where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <delete id="deleteChaptersByAlbumId" parameterType="String">
+        delete from cmfz_chapter where albumid in
+        <foreach collection="array" open="(" separator="," close=")" item="albumid">
+            #{albumid}
+        </foreach>
+    </delete>
+    <update id="updateChapter">
+        update cmfz_chapter set name = #{name,jdbcType=VARCHAR},content = #{content,jdbcType=VARCHAR},size =
+        #{size,jdbcType=DOUBLE},duration = #{duration,jdbcType=INTEGER},albumid = #{albumid,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+
+    <select id="selectChaptersAll" resultType="Chapter">
+        select id,name,content,size,duration,albumid
+        from cmfz_chapter
+    </select>
+    <select id="selectChaptersPage" resultType="Chapter">
+        select id,name,content,size,duration,albumid
+        from cmfz_chapter
+        where albumid = #{albumid}
+        limit #{start},#{rows}
+    </select>
+    <select id="selectChapterCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_chapter
+        where albumid = #{albumid}
+    </select>
+    <select id="selectChaptersByAlbumId" resultType="Chapter">
+        select id,name,content,size,duration,albumid
+        from cmfz_chapter
+        where albumid = #{albumid}
+    </select>
+    <select id="selectChapterById" resultType="Chapter">
+        select id,name,content,size,duration,albumid
+        from cmfz_chapter
+        where id = #{id}
+    </select>
+    <select id="selectChaptersByIds" parameterType="String" resultType="Chapter">
+        select id,name,content,size,duration,albumid
+        from cmfz_chapter
+        where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.BannerDAO">
+
+    <insert id="insertBanner">
+        insert into cmfz_banner values(#{id},#{title},#{describes},#{state},#{picture},#{time})
+    </insert>
+    <delete id="deleteBanner">
+        delete from cmfz_banner where id = #{id}
+    </delete>
+    <delete id="deleteBanners" parameterType="String">
+        delete from cmfz_banner where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateBanner">
+        update cmfz_banner set title = #{title},describes = #{describes},state = #{state},picture = #{picture},time =
+        #{time}
+        where id = #{id}
+    </update>
+
+    <select id="selectBannersAll" resultType="Banner">
+        select id,title,describes,state,picture,time
+        from cmfz_banner
+    </select>
+    <select id="selectBannersPage" resultType="Banner">
+        select id,title,describes,state,picture,time
+        from cmfz_banner
+        limit #{start},#{rows}
+    </select>
+    <select id="selectBannerCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_banner
+    </select>
+    <select id="selectBannersByState" resultType="Banner">
+        select id,title,describes,state,picture,time from cmfz_banner where state = #{state}
+    </select>
+    <select id="selectBannerById" resultType="Banner">
+        select id,title,describes,state,picture,time from cmfz_banner where id = #{id}
+    </select>
+
+</mapper>

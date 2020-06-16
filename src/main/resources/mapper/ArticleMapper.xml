@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "http://mybatis.org/dtd/mybatis-3-mapper.dtd" "mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.ArticleDAO">
+
+    <insert id="insertArticle">
+        insert into cmfz_article
+        values(#{id},#{title,jdbcType=VARCHAR},#{author,jdbcType=VARCHAR},#{content,jdbcType=VARCHAR},#{state,jdbcType=VARCHAR},#{time,jdbcType=DATE})
+    </insert>
+    <delete id="deleteArticle">
+        delete from cmfz_article where id = #{id}
+    </delete>
+    <delete id="deleteArticles" parameterType="String">
+        delete from cmfz_article where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="updateArticle">
+        update cmfz_article set title = #{title,jdbcType=VARCHAR},author = #{author,jdbcType=VARCHAR},content =
+        #{content,jdbcType=VARCHAR},state = #{state,jdbcType=VARCHAR}
+        where id = #{id}
+    </update>
+
+    <select id="selectArticlesAll" resultType="Article">
+        select id,title,author,content,state,time
+        from cmfz_article
+    </select>
+    <select id="selectArticlesPage" resultType="Article">
+        select id,title,author,content,state,time
+        from cmfz_article
+        limit #{start},#{rows}
+    </select>
+    <select id="selectArticleCount" resultType="java.lang.Integer">
+        select count(id) from cmfz_article
+    </select>
+    <!-- <select id="selectArticlesByGuruid" resultType="Article">
+         select id,title,author,content,state,time
+         from cmfz_article
+         where guruid = #{guruid}
+     </select>-->
+    <select id="selectArticleById" resultType="Article">
+        select id,title,author,content,state,time
+        from cmfz_article
+        where id = #{id}
+    </select>
+
+
+</mapper>
